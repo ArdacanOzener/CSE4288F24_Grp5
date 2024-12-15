@@ -1,6 +1,6 @@
 import pandas as pd
-data_path = 'loan_data.csv'
-save_path = 'loan_data_numerical.csv'
+data_path = 'validation_data.csv'
+save_path = 'validation_data_numerical.csv'
 df = pd.read_csv(data_path)
 
 #person gender
@@ -41,7 +41,7 @@ columns_to_normalize = [
     'credit_score'
 ]
 
-# Min-Max Normalizasyonu
+# Min-Max Normalization
 df[columns_to_normalize] = df[columns_to_normalize].apply(
     lambda x: (x - x.min()) / (x.max() - x.min())
 )
