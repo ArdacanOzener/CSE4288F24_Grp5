@@ -10,8 +10,55 @@ from sklearn.metrics import confusion_matrix, roc_auc_score, accuracy_score, cla
 import warnings
 warnings.filterwarnings("ignore")
 
+
+
+
 df_with_outliers = pd.read_csv("loan_data.csv", header=0)
-    
+
+columns_to_plot_distribution = ["person_gender","person_education","person_home_ownership",
+                                "loan_intent","previous_loan_defaults_on_file","loan_status"]
+
+fig, ax = plt.subplots(2, 3, figsize=(28, 14))
+
+axes = ax.flatten()
+
+for i, column_name in enumerate(columns_to_plot_distribution):
+    axes[i].pie(
+        df_with_outliers[column_name].value_counts().values / df_with_outliers[column_name].shape[0],
+        labels=df_with_outliers[column_name].value_counts().index,
+        autopct='%1.1f%%',
+        startangle=140
+    )
+    axes[i].set_title(f"Distribution of {column_name}")
+    axes[i].legend() 
+
+for j in range(len(columns_to_plot_distribution), len(axes)):
+    fig.delaxes(axes[j])
+
+plt.tight_layout()
+plt.show()
+
+
+fig, axes = plt.subplots(2, 2, figsize=(18, 12))
+fig.suptitle("Loan Status by Categorical Features", fontsize=18)
+
+axes = axes.flatten()
+
+columns_to_analyze = ['person_education', 'person_home_ownership', 'loan_intent', 'previous_loan_defaults_on_file']
+
+for i, column_name in enumerate(columns_to_analyze):
+    sns.countplot(data=df_with_outliers, x=column_name, hue='loan_status', ax=axes[i], palette='pastel')
+    axes[i].set_xlabel(column_name.replace('_', ' ').title())
+    axes[i].set_ylabel("Count")
+    axes[i].legend(title='Loan Status', labels=['0 = Rejected', '1 = Approved'])
+
+for j in range(len(columns_to_analyze), len(axes)):
+    fig.delaxes(axes[j])
+
+plt.tight_layout(rect=[0, 0, 1, 0.95])
+plt.show()
+
+
 def arrange_features(df):
     df['person_education'].replace({
     'High School': 0,
