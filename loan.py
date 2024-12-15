@@ -25,7 +25,6 @@ test_yes_index, validation_yes_index = train_test_split(temp_yes_index, test_siz
 train_no_index, temp_no_index = train_test_split(num_of_no, test_size=0.3, random_state=42)
 test_no_index, validation_no_index = train_test_split(temp_no_index, test_size = 2/3, random_state= 42)
 
-
 #get appropriate row numbers from dataset according to the indices
 #for loan_status = 1
 train_yes = loan_status_yes.iloc[train_yes_index]
@@ -37,8 +36,12 @@ train_no = loan_status_no.iloc[train_no_index]
 validation_no = loan_status_no.iloc[validation_no_index]
 test_no = loan_status_no.iloc[test_no_index]
 
-
 #merging operations
 train_data = pd.concat([train_yes, train_no],ignore_index = True)
 validation_data = pd.concat([validation_yes, validation_no],ignore_index = True)
 test_data = pd.concat([test_yes, test_no],ignore_index = True)
+
+# Export to Excel file
+train_data.to_csv("train_data.csv", index=False)
+validation_data.to_csv("validation_data.csv", index=False)
+test_data.to_csv("test_data.csv", index=False)
