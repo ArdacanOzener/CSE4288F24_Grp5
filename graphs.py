@@ -130,5 +130,9 @@ loan_status.plot(kind='pie', autopct='%1.1f%%', startangle=140, colors=plt.cm.Pa
 axes[3][1].set_title('Loan Status of Persons', fontsize=16)
 axes[3][1].set_ylabel('')
 
+#delete last 2 empty graphs
+fig.delaxes(axes[3, 2])  
+fig.delaxes(axes[3, 3])  
+
 plt.tight_layout()
 plt.show()
