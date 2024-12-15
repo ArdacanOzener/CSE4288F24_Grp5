@@ -46,7 +46,10 @@ df[columns_to_normalize] = df[columns_to_normalize].apply(
     lambda x: (x - x.min()) / (x.max() - x.min())
 )
 
+#move target feature to the end
+target_feature = 'loan_status'
+target_feature_index = df.columns.get_loc(target_feature)
+df = df[[col for col in df.columns if col != target_feature] + [target_feature]]
+
 #save to csv
 df.to_csv(save_path, index=False)
-
-
