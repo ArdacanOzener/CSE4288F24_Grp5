@@ -14,7 +14,7 @@ df['person_gender'] = df['person_gender'].map(gender_mapping)
 #person education
 #High School, Associate, Bachelor, Master, Doctor
 #High School = 0, Associate = 0.25, Bachelor = 0.5, Master = 0.75, Doctor = 1
-education_mapping = {'High School': 0, 'Associate': 0.25, 'Bachelor': 0.5, 'Master': 0.75, 'Doctor': 1}
+education_mapping = {'High School': 0, 'Associate': 0.25, 'Bachelor': 0.5, 'Master': 0.75, 'Doctorate': 1}
 df['person_education'] = df['person_education'].map(education_mapping)
 
 #person home ownership
