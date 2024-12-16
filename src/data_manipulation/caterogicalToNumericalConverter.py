@@ -1,5 +1,5 @@
 import pandas as pd
-file_name = ["test", "ID"]
+file_name = ["validation", "ID"]
 data_path = f'../../datasets/{file_name[0]}/{file_name[0]}_data_{file_name[1]}.csv'
 save_path = f'../../datasets/{file_name[0]}/{file_name[0]}_data_{file_name[1]}_numeric.csv'
 df = pd.read_csv(data_path)
