@@ -1,7 +1,14 @@
 import pandas as pd
-file_name = ["validation", "ID"]
-data_path = f'../../datasets/{file_name[0]}/{file_name[0]}_data_{file_name[1]}.csv'
-save_path = f'../../datasets/{file_name[0]}/{file_name[0]}_data_{file_name[1]}_numeric.csv'
+def normalize_dataframe(df, column_min_max_values, columns_to_normalize):
+    for column in columns_to_normalize:
+        if column in column_min_max_values:
+            min_value = column_min_max_values[column]['min']
+            max_value = column_min_max_values[column]['max']
+            df[column] = (df[column] - min_value) / (max_value - min_value)
+    return df
+
+data_path = 'datasets/test/test_data_ID.csv'
+save_path = 'datasets/test/test_data_ID_numeric.csv'
 df = pd.read_csv(data_path)
 
 #person gender
@@ -34,7 +41,8 @@ df['previous_loan_defaults_on_file'] = df['previous_loan_defaults_on_file'].map(
 #normalize
 columns_to_normalize = [
     'person_age', 
-    'person_income', 
+    'person_income',
+    'person_emp_exp',
     'loan_amnt', 
     'loan_int_rate', 
     'loan_percent_income', 
@@ -42,10 +50,9 @@ columns_to_normalize = [
     'credit_score'
 ]
 
-# Min-Max Normalizasyonu
-df[columns_to_normalize] = df[columns_to_normalize].apply(
-    lambda x: (x - x.min()) / (x.max() - x.min())
-)
+min_max_values_path = 'config_files/column_min_max_values.json'
+min_max_values = pd.read_json(min_max_values_path)
+df = normalize_dataframe(df, min_max_values, columns_to_normalize)
 
 #move target feature to the end
 target_feature = 'loan_status'
@@ -54,3 +61,10 @@ df = df[[col for col in df.columns if col != target_feature] + [target_feature]]
 
 #save to csv
 df.to_csv(save_path, index=False)
+
+
+
+
+
+
+
