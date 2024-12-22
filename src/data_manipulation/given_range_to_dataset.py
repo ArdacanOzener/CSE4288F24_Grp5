@@ -46,6 +46,6 @@ def convert_to_categorical(dataset_path, json_path, output_path):
 # Example usage
 convert_to_categorical(
     dataset_path="../../datasets/training/training_data_ID.csv",
-    json_path='../../config_files/range_config.json',
-    output_path='../../datasets/training/training_data_ID_range.csv'
+    json_path='../../config_files/DT_ranges.json',
+    output_path='../../datasets/training/training_data_ID_DTB.csv'
 )

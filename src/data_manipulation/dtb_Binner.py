@@ -10,7 +10,7 @@ df = pd.read_csv("../../datasets/loan_data.csv")
 columns = ["person_age", "person_income", 
            "person_emp_exp", "loan_amnt", 
            "loan_int_rate", "loan_percent_income",
-           "cb_person_cred_hist_length"]
+           "cb_person_cred_hist_length", "credit_score"]
 
 class_label = "loan_status"
 
@@ -23,7 +23,7 @@ for data_column in columns:
     bin_results = []
     X = df[data_column].values.reshape(-1, 1)
 
-    for i in range(2, 21):
+    for i in range(2, 31):
         results = []
         start_time = time.time()
 
