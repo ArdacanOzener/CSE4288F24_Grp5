@@ -44,8 +44,10 @@ def convert_to_categorical(dataset_path, json_path, output_path):
     print(f"Converted dataset saved to '{output_path}'.")
 
 # Example usage
-convert_to_categorical(
-    dataset_path="../../datasets/training/training_data_ID.csv",
-    json_path='../../config_files/DT_ranges.json',
-    output_path='../../datasets/training/training_data_ID_DTB.csv'
-)
+for j in ["DTB", "frequency", "range"]:
+    for i in ["adasyn", "smote", "clusterbased", "nearmiss"]:
+        convert_to_categorical(
+            dataset_path=f"../../tmp_datasets/training_data_ID_{i}.csv",
+            json_path='../../config_files/DT_ranges.json',
+            output_path=f'../../datasets/training/training_data_ID_{j}_{i}.csv'
+        )
