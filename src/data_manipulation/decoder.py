@@ -45,11 +45,13 @@ def decode_dataframe(df, denormalization_config_path):
         
     return df
 
-df = pd.read_csv("datasets/validation/validation_data_ID_numeric.csv")
-decoded_df = decode_dataframe(df, "config_files/denormalization_config.json")
-#move target feature to the end
-target_feature = 'loan_status'
-target_feature_index = df.columns.get_loc(target_feature)
-decoded_df = decoded_df[[col for col in decoded_df.columns if col != target_feature] + [target_feature]]
 
-decoded_df.to_csv("datasets/validation/validation_data_ID_decoded.csv", index=False)
+for i in ["adasyn", "smote", "clusterbased", "nearmiss"]:
+    df = pd.read_csv(f"../../datasets/training/training_data_ID_numeric_{i}.csv")
+    decoded_df = decode_dataframe(df, "../../config_files/denormalization_config.json")
+    #move target feature to the end
+    target_feature = 'loan_status'
+    target_feature_index = df.columns.get_loc(target_feature)
+    decoded_df = decoded_df[[col for col in decoded_df.columns if col != target_feature] + [target_feature]]
+
+    decoded_df.to_csv(f"../../tmp_datasets/training_data_ID_{i}.csv", index=False)
