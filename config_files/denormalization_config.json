@@ -1,0 +1,49 @@
+{
+    "person_age": {"isNumerical": true, "min": 20.0, "max": 144.0},
+    "person_income": {"isNumerical": true, "min": 8000.0, "max": 7200766.0},
+    "person_emp_exp": {"isNumerical": true, "min": 0.0, "max": 125.0},
+    "loan_amnt": {"isNumerical": true, "min": 500.0, "max": 35000.0},
+    "loan_int_rate": {"isNumerical": true, "min": 5.42, "max": 20.0},
+    "loan_percent_income": {"isNumerical": true, "min": 0.0, "max": 0.66},
+    "cb_person_cred_hist_length": {"isNumerical": true, "min": 2.0, "max": 30.0},
+    "credit_score": {"isNumerical": true, "min": 390.0, "max": 850.0},
+    "person_gender": {
+        "isNumerical": false,
+        "type": "direct",
+        "mapping": {
+            "0": "female",
+            "1": "male"
+        }
+    },
+    "person_education": {
+        "isNumerical": false,
+        "type": "direct",
+        "mapping": {
+            "0": "High School",
+            "0.25": "Associate",
+            "0.5": "Bachelor",
+            "0.75": "Master",
+            "1": "Doctorate"
+        }
+    },
+    "person_home_ownership": {
+        "isNumerical": false,
+        "type": "one_hot",
+        "prefix": "home",
+        "categories": ["RENT", "OWN", "MORTGAGE", "OTHER"]
+    },
+    "loan_intent": {
+        "isNumerical": false,
+        "type": "one_hot",
+        "prefix": "intent",
+        "categories": ["PERSONAL", "EDUCATION", "MEDICAL", "VENTURE", "DEBTCONSOLIDATION", "HOMEIMPROVEMENT"]
+    },
+    "previous_loan_defaults_on_file": {
+        "isNumerical": false,
+        "type": "direct",
+        "mapping": {
+            "0": "No",
+            "1": "Yes"
+        }
+    }
+}
