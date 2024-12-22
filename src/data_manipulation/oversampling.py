@@ -5,8 +5,8 @@ import hashlib
 
 # Load dataset
 file_name = ["training", "ID_numeric"]
-data_path = f'./datasets/{file_name[0]}/{file_name[0]}_data_{file_name[1]}.csv'
-save_path = f'./datasets/{file_name[0]}/{file_name[0]}_data_{file_name[1]}'
+data_path = f'../../datasets/{file_name[0]}/{file_name[0]}_data_{file_name[1]}.csv'
+save_path = f'../../datasets/{file_name[0]}/{file_name[0]}_data_{file_name[1]}'
 data = pd.read_csv(data_path)
 
 
@@ -46,6 +46,10 @@ def force_balance(X, y, majority_class, minority_class):
         X_balanced = pd.concat([X, extra_samples])
         y_balanced = pd.concat([y, pd.Series([minority_class] * diff, index=extra_samples.index)])
         return X_balanced.reset_index(drop=True), y_balanced.reset_index(drop=True)
+    elif diff < 0:
+        X_balanced = X[:2*(max_count)]
+        y_balanced = y[:2*(max_count)]
+        return X_balanced.reset_index(drop=True), y_balanced.reset_index(drop=True)
     return X, y
 
 # Apply SMOTE
@@ -64,12 +68,14 @@ smote_ids = list(ids) + synthetic_ids_smote
 print("Class distribution after SMOTE:", Counter(y_train_smote))
 
 # Apply ADASYN
-adasyn = ADASYN(random_state=42)
+adasyn = ADASYN(random_state=42, sampling_strategy=1.0)
 X_train_adasyn, y_train_adasyn = adasyn.fit_resample(X_train, y_train)
+
 
 # Allow duplication to ensure balance
 X_train_adasyn = pd.DataFrame(X_train_adasyn, columns=X_train.columns)
 y_train_adasyn = pd.Series(y_train_adasyn, name='loan_status')
+print("Class distribution after ADASYN:", Counter(y_train_adasyn))
 X_train_adasyn, y_train_adasyn = force_balance(X_train_adasyn, y_train_adasyn, majority_class=0, minority_class=1)
 
 # Assign IDs to ADASYN synthetic samples

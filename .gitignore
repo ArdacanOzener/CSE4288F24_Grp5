@@ -1,0 +1,3 @@
+venv/
+datasets/training/compare.py
+datasets/training/rename.py
