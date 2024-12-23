@@ -7,8 +7,8 @@ def normalize_dataframe(df, column_min_max_values, columns_to_normalize):
             df[column] = (df[column] - min_value) / (max_value - min_value)
     return df
 
-data_path = 'datasets/test/test_data_ID.csv'
-save_path = 'datasets/test/test_data_ID_numeric.csv'
+data_path = '../../datasets/validation/validation_data_ID_undersampled.csv'
+save_path = '../../datasets/validation/validation_data_ID_undersampled_numeric.csv'
 df = pd.read_csv(data_path)
 
 #person gender
@@ -50,7 +50,7 @@ columns_to_normalize = [
     'credit_score'
 ]
 
-min_max_values_path = 'config_files/column_min_max_values.json'
+min_max_values_path = '../../config_files/column_min_max_values.json'
 min_max_values = pd.read_json(min_max_values_path)
 df = normalize_dataframe(df, min_max_values, columns_to_normalize)
 

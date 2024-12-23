@@ -16,7 +16,8 @@ train_data_nearmiss = pd.read_csv('../datasets/training/training_data_ID_numeric
 train_data_clusterbased = pd.read_csv('../datasets/training/training_data_ID_numeric_clusterbased.csv')
 validation_data = pd.read_csv('../datasets/validation/validation_data_ID_numeric.csv')
 test_data = pd.read_csv('../datasets/test/test_data_ID_numeric.csv')
-
+test_data_undersampled = pd.read_csv('../datasets/test/test_data_ID_numeric_undersampled.csv')
+validation_data_undersampled = pd.read_csv('../datasets/validation/validation_data_ID_numeric_undersampled_validation.csv')
 
 # Assign weights based on loan_status for train_data_weights_assigned
 train_data_weights_assigned = train_data.copy()
@@ -28,12 +29,17 @@ y_validation = validation_data['loan_status']
 X_test = test_data.drop(columns=['ID', 'loan_status'])
 y_test = test_data['loan_status']
 
+X_validation_undersampled = validation_data_undersampled.drop(columns=['ID', 'loan_status'])
+y_validation_undersampled = validation_data_undersampled['loan_status']
+X_test_undersampled = test_data_undersampled.drop(columns=['ID', 'loan_status'])
+y_test_undersampled = test_data_undersampled['loan_status']
+
 # Initialize dictionaries to store accuracies
 validation_accuracies = {}
 test_accuracies = {}
 
 # Function to train and evaluate model
-def train_and_evaluate(train_data, label):
+def train_and_evaluate(train_data, label, X_val, y_val, X_tst, y_tst):
     X_train = train_data.drop(columns=['ID', 'loan_status'])
     y_train = train_data['loan_status']
     
@@ -44,11 +50,11 @@ def train_and_evaluate(train_data, label):
     
     svm_model.fit(X_train, y_train)
     
-    y_pred_validation = svm_model.predict(X_validation)
-    y_pred_test = svm_model.predict(X_test)
+    y_pred_validation = svm_model.predict(X_val)
+    y_pred_test = svm_model.predict(X_tst)
     
-    validation_accuracy = accuracy_score(y_validation, y_pred_validation)
-    test_accuracy = accuracy_score(y_test, y_pred_test)
+    validation_accuracy = accuracy_score(y_val, y_pred_validation)
+    test_accuracy = accuracy_score(y_tst, y_pred_test)
     
     validation_accuracies[label] = validation_accuracy
     test_accuracies[label] = test_accuracy
@@ -56,11 +62,11 @@ def train_and_evaluate(train_data, label):
     print(f"{label.capitalize()}:")
     print("Validation Accuracy:", validation_accuracy)
     print("Test Accuracy:", test_accuracy)
-    print("\n\nValidation Classification Report:\n", classification_report(y_validation, y_pred_validation))
-    print("Test Classification Report:\n", classification_report(y_test, y_pred_test))
-    print("Validation Confusion Matrix:\n", confusion_matrix(y_validation, y_pred_validation))
-    print("Test Confusion Matrix:\n", confusion_matrix(y_test, y_pred_test))
-    conf_matrix = confusion_matrix(y_test, y_pred_test)
+    print("\n\nValidation Classification Report:\n", classification_report(y_val, y_pred_validation))
+    print("Test Classification Report:\n", classification_report(y_tst, y_pred_test))
+    print("Validation Confusion Matrix:\n", confusion_matrix(y_val, y_pred_validation))
+    print("Test Confusion Matrix:\n", confusion_matrix(y_tst, y_pred_test))
+    conf_matrix = confusion_matrix(y_tst, y_pred_test)
     plt.figure(figsize=(10, 8))
     sns.heatmap(conf_matrix, annot=True, cmap='coolwarm', fmt='.2f', linewidths=0.5)
     
@@ -69,17 +75,23 @@ def train_and_evaluate(train_data, label):
     plt.show()
 
 # Train individual SVM models
-train_and_evaluate(train_data, 'original')
+train_and_evaluate(train_data, 'original', X_validation, y_validation, X_test, y_test)
+train_and_evaluate(train_data_smote, 'smote', X_validation, y_validation, X_test, y_test)
+train_and_evaluate(train_data_adasyn, 'adasyn', X_validation, y_validation, X_test, y_test)
+train_and_evaluate(train_data_nearmiss, 'nearmiss', X_validation, y_validation, X_test, y_test)
+train_and_evaluate(train_data_clusterbased, 'clusterbased', X_validation, y_validation, X_test, y_test)
+train_and_evaluate(train_data_weights_assigned, 'original_weight', X_validation, y_validation, X_test, y_test)
 
-train_and_evaluate(train_data_smote, 'smote')
+# Train individual SVM models on undersampled data
+train_and_evaluate(train_data, 'original_undersampled', X_validation_undersampled, y_validation_undersampled, X_test_undersampled, y_test_undersampled)
+train_and_evaluate(train_data_smote, 'smote_undersampled', X_validation_undersampled, y_validation_undersampled, X_test_undersampled, y_test_undersampled)
+train_and_evaluate(train_data_adasyn, 'adasyn_undersampled', X_validation_undersampled, y_validation_undersampled, X_test_undersampled, y_test_undersampled)
+train_and_evaluate(train_data_nearmiss, 'nearmiss_undersampled', X_validation_undersampled, y_validation_undersampled, X_test_undersampled, y_test_undersampled)
+train_and_evaluate(train_data_clusterbased, 'clusterbased_undersampled', X_validation_undersampled, y_validation_undersampled, X_test_undersampled, y_test_undersampled)
 
-train_and_evaluate(train_data_adasyn, 'adasyn')
-
-train_and_evaluate(train_data_nearmiss, 'nearmiss')
-
-train_and_evaluate(train_data_clusterbased, 'clusterbased')
-
-train_and_evaluate(train_data_weights_assigned, 'original_weight')
+# Train individual SVM models on undersampled data
+train_and_evaluate(test_data_undersampled, 'undersampled_test', X_test_undersampled, y_test_undersampled, X_test, y_test)
+train_and_evaluate(validation_data_undersampled, 'undersampled_validation', X_validation_undersampled, y_validation_undersampled, X_test, y_test)
 
 # Ensemble method using VotingClassifier
 def train_and_evaluate_ensemble():
