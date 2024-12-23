@@ -94,7 +94,7 @@ train_and_evaluate(test_data_undersampled, 'undersampled_test', X_test_undersamp
 train_and_evaluate(validation_data_undersampled, 'undersampled_validation', X_validation_undersampled, y_validation_undersampled, X_test, y_test)
 
 # Ensemble method using VotingClassifier
-def train_and_evaluate_ensemble():
+def train_and_evaluate_ensemble(X_val, y_val, X_tst, y_tst):
     X_train = train_data.drop(columns=['ID', 'loan_status'])
     y_train = train_data['loan_status']
     
@@ -116,20 +116,20 @@ def train_and_evaluate_ensemble():
     
     ensemble_model.fit(X_train, y_train)
     
-    y_pred_validation = ensemble_model.predict(X_validation)
-    y_pred_test = ensemble_model.predict(X_test)
+    y_pred_validation = ensemble_model.predict(X_val)
+    y_pred_test = ensemble_model.predict(X_tst)
     
-    validation_accuracy = accuracy_score(y_validation, y_pred_validation)
-    test_accuracy = accuracy_score(y_test, y_pred_test)
+    validation_accuracy = accuracy_score(y_val, y_pred_validation)
+    test_accuracy = accuracy_score(y_tst, y_pred_test)
     
     print("Ensemble Model:")
     print("Validation Accuracy:", validation_accuracy)
     print("Test Accuracy:", test_accuracy)
-    print("\n\nValidation Classification Report:\n", classification_report(y_validation, y_pred_validation))
-    print("Test Classification Report:\n", classification_report(y_test, y_pred_test))
-    print("Validation Confusion Matrix:\n", confusion_matrix(y_validation, y_pred_validation))
-    print("Test Confusion Matrix:\n", confusion_matrix(y_test, y_pred_test))
-    conf_matrix = confusion_matrix(y_test, y_pred_test)
+    print("\n\nValidation Classification Report:\n", classification_report(y_val, y_pred_validation))
+    print("Test Classification Report:\n", classification_report(y_tst, y_pred_test))
+    print("Validation Confusion Matrix:\n", confusion_matrix(y_val, y_pred_validation))
+    print("Test Confusion Matrix:\n", confusion_matrix(y_tst, y_pred_test))
+    conf_matrix = confusion_matrix(y_tst, y_pred_test)
     plt.figure(figsize=(10, 8))
     sns.heatmap(conf_matrix, annot=True, cmap='coolwarm', fmt='.2f', linewidths=0.5)
     
@@ -137,4 +137,8 @@ def train_and_evaluate_ensemble():
     plt.ylabel('Actual')
     plt.show()
 
-train_and_evaluate_ensemble()
+# Train ensemble model on original data
+train_and_evaluate_ensemble(X_validation, y_validation, X_test, y_test)
+
+# Train ensemble model on undersampled data
+train_and_evaluate_ensemble(X_validation_undersampled, y_validation_undersampled, X_test_undersampled, y_test_undersampled)
