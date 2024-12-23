@@ -1,0 +1,7 @@
+{
+    "training dataset": "../../datasets/training/training_data_ID_range_nearmiss.csv",
+    "max_depth": 5,
+    "min_samples_split": 5,
+    "training time": 0.01575016975402832,
+    "loss": 0.5236629198726697
+}

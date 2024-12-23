@@ -1,0 +1,7 @@
+{
+    "training dataset": "../../datasets/training/training_data_ID_DTB_adasyn.csv",
+    "max_depth": null,
+    "min_samples_split": 5,
+    "training time": 3.7126049995422363,
+    "loss": 0.26694277474161726
+}

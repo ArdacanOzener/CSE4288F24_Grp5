@@ -1,0 +1,7 @@
+{
+    "training dataset": "../../datasets/training/training_data_ID_frequency_adasyn.csv",
+    "max_depth": null,
+    "min_samples_split": 2,
+    "training time": 2.8887014389038086,
+    "loss": 0.2675635277789193
+}

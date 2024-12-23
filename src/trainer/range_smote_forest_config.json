@@ -1,0 +1,7 @@
+{
+    "training dataset": "../../datasets/training/training_data_ID_range_smote.csv",
+    "max_depth": null,
+    "min_samples_split": 10,
+    "training time": 1.8807570934295654,
+    "loss": 0.25536041754478966
+}

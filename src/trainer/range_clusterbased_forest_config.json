@@ -1,0 +1,7 @@
+{
+    "training dataset": "../../datasets/training/training_data_ID_range_clusterbased.csv",
+    "max_depth": 3,
+    "min_samples_split": 10,
+    "training time": 0.17539310455322266,
+    "loss": 0.5318542674452024
+}

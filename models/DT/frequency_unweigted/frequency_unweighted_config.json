@@ -1,0 +1,7 @@
+{
+    "training dataset": "../../datasets/training/training_data_ID_frequency.csv",
+    "max_depth": 5,
+    "min_samples_split": 2,
+    "training time": 0.03791999816894531,
+    "loss": 0.2419775292144071
+}

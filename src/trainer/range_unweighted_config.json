@@ -1,0 +1,7 @@
+{
+    "training dataset": "../../datasets/training/training_data_ID_range.csv",
+    "max_depth": null,
+    "min_samples_split": 10,
+    "training time": 1.0905585289001465,
+    "loss": 0.214741214278844
+}

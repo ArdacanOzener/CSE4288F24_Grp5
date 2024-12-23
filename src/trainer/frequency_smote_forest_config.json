@@ -1,0 +1,7 @@
+{
+    "training dataset": "../../datasets/training/training_data_ID_frequency_smote.csv",
+    "max_depth": null,
+    "min_samples_split": 5,
+    "training time": 2.334869146347046,
+    "loss": 0.23948501294554975
+}

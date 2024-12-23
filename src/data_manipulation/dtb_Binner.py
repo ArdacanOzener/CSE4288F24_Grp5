@@ -5,7 +5,7 @@ import time
 import json
 
 # Load dataset
-df = pd.read_csv("../../datasets/loan_data.csv")
+df = pd.read_csv("../../datasets/training/training_data_ID.csv")
 
 columns = ["person_age", "person_income", 
            "person_emp_exp", "loan_amnt", 

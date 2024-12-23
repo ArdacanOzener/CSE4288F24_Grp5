@@ -103,7 +103,7 @@ def equal_range_binning(input_file, output_file, columns, bins):
 
 # Example usage
 
-input_csv = "../../datasets/loan_data.csv"  # Path to input CSV
+input_csv = "../../datasets/training/training_data_ID.csv"  # Path to input CSV
 output_json = "../../config_files/"  # Path to save output CSV
 numeric_columns = ["person_age", "person_income", 
            "person_emp_exp", "loan_amnt", 
