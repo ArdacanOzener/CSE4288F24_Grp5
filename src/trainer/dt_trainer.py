@@ -10,8 +10,9 @@ import time
 import pickle
 
 
-for val in ["DTB", "frequency", "range"]:
-    for meth in ["adasyn", "smote", "nearmiss", "clusterbased"]:
+for val in ["DTB"]:#, "frequency", "range"]:
+    if True:
+    #for meth in ["adasyn", "smote", "nearmiss", "clusterbased"]:
 
         # Load the dataset
         train_path = f'../../datasets/training/training_data_ID_{val}_{meth}.csv'
@@ -32,7 +33,7 @@ for val in ["DTB", "frequency", "range"]:
 
 
         # Hyperparameters to tune
-        max_depths = [3, 5, 10, None]  # Example of different max_depth values for Decision Trees
+        max_depths = [30, 50, 100, 300]  # Example of different max_depth values for Decision Trees
         min_samples_splits = [2, 5, 10]  # Example of different min_samples_split values
 
         # Store models and their corresponding losses
@@ -47,7 +48,7 @@ for val in ["DTB", "frequency", "range"]:
                 class_weight={0: 1, 1: 3.5}
                 class_weight=None
                 start_time = time.time()
-                model = RandomForestClassifier(class_weight=class_weight, max_depth=max_depth, min_samples_split=min_samples_split)
+                model = RandomForestClassifier(class_weight=class_weight, n_estimators=max_depth, min_samples_split=min_samples_split)
                 model.fit(X_train, y_train)
                 end_time = time.time()
                 
@@ -62,7 +63,7 @@ for val in ["DTB", "frequency", "range"]:
                 losses.append(loss)
                 configurations.append({
                     'training dataset': train_path,
-                    'max_depth': max_depth,
+                    'n_estimators': max_depth,
                     'min_samples_split': min_samples_split,
                     'training time': end_time - start_time,
                     'loss': loss
@@ -77,7 +78,7 @@ for val in ["DTB", "frequency", "range"]:
         plt.imshow(loss_matrix, interpolation='nearest', cmap=plt.cm.Blues)
         plt.title(f"{val}_{meth} Model Validation Loss")
         plt.xlabel("Min Samples Split")
-        plt.ylabel("Max Depth")
+        plt.ylabel("Number of Estimators")
         plt.xticks(np.arange(len(min_samples_splits)), min_samples_splits)
         plt.yticks(np.arange(len(max_depths)), max_depths)
         plt.colorbar()

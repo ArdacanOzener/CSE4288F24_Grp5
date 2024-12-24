@@ -45,9 +45,10 @@ def convert_to_categorical(dataset_path, json_path, output_path):
 
 # Example usage
 for j in ["DTB", "frequency", "range"]:
-    for i in ["adasyn", "clusterbased", "smote", "nearmiss"]:
+    if True:
+    #for i in ["adasyn", "clusterbased", "smote", "nearmiss"]:
         convert_to_categorical(
-            dataset_path=f"../../datasets/training/training_data_ID_{i}.csv",
+            dataset_path=f"../../datasets/validation/validation_data_ID_undersampled.csv",
             json_path=f'../../config_files/{j}_config.json',
-            output_path=f'../../datasets/training/training_data_ID_{j}_{i}.csv'
+            output_path=f'../../datasets/validation/validation_data_ID_undersampled_{j}.csv'
         )

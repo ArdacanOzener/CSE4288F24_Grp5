@@ -51,7 +51,7 @@ def plot_confusion_matrix_with_metrics(y_true, y_pred, file_name):
     sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', cbar=False, xticklabels=['Negative', 'Positive'], yticklabels=['Negative', 'Positive'], ax=ax1)
     ax1.set_xlabel('Predicted')
     ax1.set_ylabel('Actual')
-    ax1.set_title(file_name+"forest")
+    ax1.set_title(file_name)
 
     # Metrics Text
     metrics_text = f"Accuracy: {accuracy:.2f}\n" \
@@ -71,10 +71,10 @@ def plot_confusion_matrix_with_metrics(y_true, y_pred, file_name):
 # Main function
 def main():
     for val in ["DTB", "frequency", "range"]:
-        for meth in ["adasyn", "smote", "nearmiss", "clusterbased"]:
+        for meth in ["adasyn", "smote", "nearmiss", "clusterbased", "unweighted", "weighted"]:
         #for meth in ["unweighted", "weighted"]:
-            pickle_file = f"../trainer/{val}_{meth}-forest-model.pickle"  # Replace with your pickle file path
-            csv_file = f"../../datasets/test/test_data_ID_{val}.csv"  # Replace with your CSV file path
+            pickle_file = f"../../models/DecisionTree/{val}_{meth}/{val}_{meth}-tree-model.pickle"  # Replace with your pickle file path
+            csv_file = f"../../datasets/test/test_data_ID_undersampled_{val}.csv"  # Replace with your CSV file path
 
 
             # Load model
