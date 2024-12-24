@@ -72,7 +72,6 @@ def plot_confusion_matrix_with_metrics(y_true, y_pred, file_name):
 def main():
     for val in ["DTB", "frequency", "range"]:
         for meth in ["adasyn", "smote", "nearmiss", "clusterbased", "unweighted", "weighted"]:
-        #for meth in ["unweighted", "weighted"]:
             pickle_file = f"../../models/DecisionTree/{val}_{meth}/{val}_{meth}-tree-model.pickle"  # Replace with your pickle file path
             csv_file = f"../../datasets/test/test_data_ID_undersampled_{val}.csv"  # Replace with your CSV file path
 

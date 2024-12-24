@@ -10,12 +10,12 @@ import time
 import pickle
 
 
-for val in ["DTB"]:#, "frequency", "range"]:
+for val in ["DTB", "frequency", "range"]:
     if True:
     #for meth in ["adasyn", "smote", "nearmiss", "clusterbased"]:
 
         # Load the dataset
-        train_path = f'../../datasets/training/training_data_ID_{val}_{meth}.csv'
+        train_path = f'../../datasets/training/training_data_ID_{val}.csv'
         train_data = pd.read_csv(train_path)  # Replace with the path to your training data
         validation_data = pd.read_csv(f'../../datasets/validation/validation_data_ID_{val}.csv') # Replace with the path to your validation data
         
@@ -33,7 +33,7 @@ for val in ["DTB"]:#, "frequency", "range"]:
 
 
         # Hyperparameters to tune
-        max_depths = [30, 50, 100, 300]  # Example of different max_depth values for Decision Trees
+        max_depths = [3, 5, 10, None]  # Example of different max_depth values for Decision Trees
         min_samples_splits = [2, 5, 10]  # Example of different min_samples_split values
 
         # Store models and their corresponding losses
@@ -46,9 +46,9 @@ for val in ["DTB"]:#, "frequency", "range"]:
             for min_samples_split in min_samples_splits:
                 # Train a Decision Tree model
                 class_weight={0: 1, 1: 3.5}
-                class_weight=None
+                #class_weight=None
                 start_time = time.time()
-                model = RandomForestClassifier(class_weight=class_weight, n_estimators=max_depth, min_samples_split=min_samples_split)
+                model = DecisionTreeClassifier(class_weight=class_weight, max_depth=max_depth, min_samples_split=min_samples_split)
                 model.fit(X_train, y_train)
                 end_time = time.time()
                 
@@ -63,7 +63,7 @@ for val in ["DTB"]:#, "frequency", "range"]:
                 losses.append(loss)
                 configurations.append({
                     'training dataset': train_path,
-                    'n_estimators': max_depth,
+                    'max_depth': max_depth,
                     'min_samples_split': min_samples_split,
                     'training time': end_time - start_time,
                     'loss': loss
@@ -76,9 +76,9 @@ for val in ["DTB"]:#, "frequency", "range"]:
 
         plt.figure(figsize=(10, 6))
         plt.imshow(loss_matrix, interpolation='nearest', cmap=plt.cm.Blues)
-        plt.title(f"{val}_{meth} Model Validation Loss")
+        plt.title(f"{val}_weighted Model Validation Loss")
         plt.xlabel("Min Samples Split")
-        plt.ylabel("Number of Estimators")
+        plt.ylabel("Max Depth")
         plt.xticks(np.arange(len(min_samples_splits)), min_samples_splits)
         plt.yticks(np.arange(len(max_depths)), max_depths)
         plt.colorbar()
@@ -88,7 +88,7 @@ for val in ["DTB"]:#, "frequency", "range"]:
             for j in range(len(min_samples_splits)):
                 plt.text(j, i, f'{loss_matrix[i, j]:.4f}', ha='center', va='center', color='red')
 
-        plt.savefig(f"./fig/{val}_{meth}_forest_loss.png")
+        plt.savefig(f"./fig/{val}_weighted_tree_loss.png")
 
         # Best model based on the lowest log loss
         best_model_idx = np.argmin(losses)
@@ -102,11 +102,11 @@ for val in ["DTB"]:#, "frequency", "range"]:
 
 
         # save object to pickle file
-        with open(f"{val}_{meth}-forest-model.pickle", "wb") as fout:
+        with open(f"{val}_weighted-tree-model.pickle", "wb") as fout:
             pickle.dump(best_model[2], fout)
 
         # Save the hyperparameters and configuration to a JSON file
-        config_filename = f"{val}_{meth}_forest_config.json"
+        config_filename = f"{val}_weighted_tree_config.json"
         with open(config_filename, 'w') as f:
             json.dump(best_config, f, indent=4)
 
