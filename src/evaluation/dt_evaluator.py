@@ -92,7 +92,7 @@ def main():
             y_pred = model.predict(X)
 
             # Plot confusion matrix with metrics
-            plot_confusion_matrix_with_metrics(y, y_pred, f"{val}_{meth}_forest")
+            plot_confusion_matrix_with_metrics(y, y_pred, f"{val}_{meth}")
 
 if __name__ == "__main__":
     main()
