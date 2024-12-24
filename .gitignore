@@ -1,3 +1,5 @@
 venv/
 datasets/training/compare.py
 datasets/training/rename.py
+models/RandomForest/mv.sh
+models/RandomForest/replace.py
